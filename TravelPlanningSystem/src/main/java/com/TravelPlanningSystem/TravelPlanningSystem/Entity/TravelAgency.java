@@ -17,14 +17,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @Component
-public class User 
+public class TravelAgency 
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int userId;
-	private String userName;
-	private String userEmail;
-	private String userPassword;
+	private int agencyId;
+	private String agencyName;
+	private long agencyContact;
+	private String agencyEmail;
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	List<Trip> trips;

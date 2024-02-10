@@ -1,4 +1,4 @@
-package com.TravelPlanningSystem.TravelPlanningSystem.Enum;
+package com.TravelPlanningSystem.TravelPlanningSystem.Entity;
 
 public enum TransportationType {
 	FLIGHT,
