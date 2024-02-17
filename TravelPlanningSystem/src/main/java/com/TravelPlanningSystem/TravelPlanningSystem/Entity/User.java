@@ -13,6 +13,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -38,8 +39,9 @@ public class User
 	
 	@NotNull(message = "Password can't be null" )
 	@NotBlank(message = "Password can't be blank" )
-	@Pattern(regexp = "^(?=.[A-Z])(?=.[a-z])(?=.[0-9])(?=.[!@#$%^&*+=_-]).{8,}$", 
-			 message = "Enter the valid password!")
+	@Pattern(regexp = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)",
+    message ="password must be alphanumeric and special characters" )
+    @Size(min = 8,max = 16, message = "password must be 8 to 16 characters")
 	private String userPassword;
 	
 	@OneToOne(cascade = CascadeType.ALL)
