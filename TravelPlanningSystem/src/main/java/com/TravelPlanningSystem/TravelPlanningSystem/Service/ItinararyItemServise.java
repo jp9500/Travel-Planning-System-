@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.TravelPlanningSystem.TravelPlanningSystem.Entity.ItinararyItem;
 import com.TravelPlanningSystem.TravelPlanningSystem.Entity.User;
 import com.TravelPlanningSystem.TravelPlanningSystem.dao.ItinararyItemsdao;
+import com.TravelPlanningSystem.TravelPlanningSystem.exception.ItinararyListNotFound;
+import com.TravelPlanningSystem.TravelPlanningSystem.exception.ItinararyNotFound;
 import com.TravelPlanningSystem.TravelPlanningSystem.util.ResponseStructure;
 
 @Service
@@ -35,7 +37,7 @@ public class ItinararyItemServise
 			str.setData(exItem);
 			return new ResponseEntity<ResponseStructure<ItinararyItem>>(str, HttpStatus.FOUND);
 		}
-		return null;
+		throw new ItinararyNotFound("Item does not Found");
 	}
 	
 	public ResponseEntity<ResponseStructure<ItinararyItem>> deleteItem(int id){
@@ -47,7 +49,7 @@ public class ItinararyItemServise
 			str.setData(idao.deleteItem(id));
 			return new ResponseEntity<ResponseStructure<ItinararyItem>>(str, HttpStatus.OK);
 		}
-		return null;
+		throw new ItinararyNotFound("Item does not Found");
 	}
 	
 	public ResponseEntity<ResponseStructure<ItinararyItem>> updateItem(int id ,ItinararyItem item){
@@ -59,7 +61,7 @@ public class ItinararyItemServise
 			str.setData(idao.updateItem(id , item));
 			return new ResponseEntity<ResponseStructure<ItinararyItem>>(str, HttpStatus.OK);
 		}
-		return null;
+		throw new ItinararyNotFound("Item does not Found");
 	}
 	
 	public ResponseEntity<ResponseStructure<List<ItinararyItem>>> findAllItem(){
@@ -71,7 +73,7 @@ public class ItinararyItemServise
 			str.setData(items);
 			return new ResponseEntity<ResponseStructure<List<ItinararyItem>>>(str , HttpStatus.FOUND);
 		}
-		return null;
+		throw new ItinararyListNotFound("Item List does not Found");
 	}
 
 	

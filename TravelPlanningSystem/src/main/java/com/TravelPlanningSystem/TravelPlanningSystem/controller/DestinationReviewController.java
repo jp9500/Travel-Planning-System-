@@ -18,7 +18,7 @@ import com.TravelPlanningSystem.TravelPlanningSystem.Service.DestinationReviewSe
 import com.TravelPlanningSystem.TravelPlanningSystem.util.ResponseStructure;
 
 @RestController
-@RequestMapping
+@RequestMapping("review")
 public class DestinationReviewController {
 	@Autowired
 	DestinationReviewService service;

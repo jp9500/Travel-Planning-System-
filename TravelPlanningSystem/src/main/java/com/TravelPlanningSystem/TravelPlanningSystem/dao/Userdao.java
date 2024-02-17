@@ -47,4 +47,8 @@ public class Userdao
 	public List<User> findAllUser(){
 		return repo.findAll();
 	}
+	
+	public User findByuserEmail(String email) {
+		return repo.findByuserEmail(email);
+	}
 }

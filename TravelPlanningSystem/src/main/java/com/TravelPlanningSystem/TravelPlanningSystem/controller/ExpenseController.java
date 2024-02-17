@@ -18,7 +18,7 @@ import com.TravelPlanningSystem.TravelPlanningSystem.Service.ExpenseService;
 import com.TravelPlanningSystem.TravelPlanningSystem.util.ResponseStructure;
 
 @RestController
-@RequestMapping
+@RequestMapping("expense")
 public class ExpenseController 
 {
 	@Autowired
@@ -35,8 +35,8 @@ public class ExpenseController
 	}
 	
 	@DeleteMapping
-	public ResponseEntity<ResponseStructure<Expense>> deleteExpense(@RequestParam int expensed){
-		return service.deleteExpense(expensed);
+	public ResponseEntity<ResponseStructure<Expense>> deleteExpense(@RequestParam int expenseId){
+		return service.deleteExpense(expenseId);
 	}
 	
 	@PutMapping

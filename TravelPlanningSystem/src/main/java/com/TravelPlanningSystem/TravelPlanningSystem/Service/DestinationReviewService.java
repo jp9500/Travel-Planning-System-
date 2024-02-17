@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.TravelPlanningSystem.TravelPlanningSystem.Entity.DestinationReview;
 import com.TravelPlanningSystem.TravelPlanningSystem.Entity.User;
 import com.TravelPlanningSystem.TravelPlanningSystem.dao.DestinationReviewdao;
+import com.TravelPlanningSystem.TravelPlanningSystem.exception.DestinationReviewNotFound;
+import com.TravelPlanningSystem.TravelPlanningSystem.exception.destinationReviewListNotFound;
 import com.TravelPlanningSystem.TravelPlanningSystem.util.ResponseStructure;
 
 @Service
@@ -35,7 +37,7 @@ public class DestinationReviewService {
 			str.setData(exReview);
 			return new ResponseEntity<ResponseStructure<DestinationReview>>(str, HttpStatus.FOUND);
 		}
-		return null;
+		throw new DestinationReviewNotFound("Review does not Found");
 	}
 	
 	public ResponseEntity<ResponseStructure<DestinationReview>> deleteReview(int id){
@@ -47,7 +49,7 @@ public class DestinationReviewService {
 			str.setData(ddao.deleteReview(id));
 			return new ResponseEntity<ResponseStructure<DestinationReview>>(str, HttpStatus.OK);
 		}
-		return null;
+		throw new DestinationReviewNotFound("Review does not Found");
 	}
 	
 	public ResponseEntity<ResponseStructure<DestinationReview>> updateReview(int id,DestinationReview rev){
@@ -59,7 +61,7 @@ public class DestinationReviewService {
 			str.setData(ddao.updateReview(id,rev));
 			return new ResponseEntity<ResponseStructure<DestinationReview>>(str, HttpStatus.OK);
 		}
-		return null;
+		throw new DestinationReviewNotFound("Review does not Found");
 	}
 	public ResponseEntity<ResponseStructure<List<DestinationReview>>> findAllReview(){
 		ResponseStructure<List<DestinationReview>> str = new ResponseStructure<List<DestinationReview>>();
@@ -70,7 +72,7 @@ public class DestinationReviewService {
 			str.setData(reviews);
 			return new ResponseEntity<ResponseStructure<List<DestinationReview>>>(str , HttpStatus.FOUND);
 		}
-		return null;
+		throw new destinationReviewListNotFound("Review List does not Found");
 	}
 	
 	

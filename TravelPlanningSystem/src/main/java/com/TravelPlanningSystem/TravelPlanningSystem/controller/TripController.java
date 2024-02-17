@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.TravelPlanningSystem.TravelPlanningSystem.Entity.ItinararyItem;
 import com.TravelPlanningSystem.TravelPlanningSystem.Entity.Trip;
 import com.TravelPlanningSystem.TravelPlanningSystem.Service.TripService;
 import com.TravelPlanningSystem.TravelPlanningSystem.util.ResponseStructure;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("trip")
@@ -24,8 +27,8 @@ public class TripController {
 	TripService service;
 	
 	@PostMapping
-	public ResponseEntity<ResponseStructure<Trip>> saveTrip(@RequestBody Trip trip){
-		return service.saveTrip(trip);
+	public ResponseEntity<ResponseStructure<Trip>> saveTrip(@Valid @RequestBody Trip trip ,int acValue, int trValue){
+		return service.saveTrip(trip, acValue, trValue);
 	}
 	
 	@GetMapping
@@ -45,5 +48,20 @@ public class TripController {
 	@GetMapping("all")
 	public ResponseEntity<ResponseStructure<List<Trip>>> findAllTrip(){
 		return service.findAllTrip();
+	}
+	
+	@PutMapping("assignReview")
+	public ResponseEntity<ResponseStructure<Trip>> assignUser(int tripId, int reviewId){
+		return service.assignReview(tripId, reviewId);
+	}
+	
+	@PutMapping("assignItem")
+	public ResponseEntity<ResponseStructure<Trip>> assignItem(int tripId, int itemId){
+		return service.assignItem(tripId, itemId);
+	}
+	
+	@PutMapping("assignEx")
+	public ResponseEntity<ResponseStructure<Trip>> assignExpense(int tripId, int exId){
+		return service.assignExpense(tripId, exId);
 	}
 }

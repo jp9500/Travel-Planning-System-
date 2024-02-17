@@ -7,8 +7,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.TravelPlanningSystem.TravelPlanningSystem.Entity.DestinationReview;
 import com.TravelPlanningSystem.TravelPlanningSystem.Entity.TravelAgency;
+import com.TravelPlanningSystem.TravelPlanningSystem.Entity.Trip;
 import com.TravelPlanningSystem.TravelPlanningSystem.dao.TravelAgencydao;
+import com.TravelPlanningSystem.TravelPlanningSystem.dao.Tripdao;
+import com.TravelPlanningSystem.TravelPlanningSystem.exception.TravelAgencyListNotFound;
+import com.TravelPlanningSystem.TravelPlanningSystem.exception.TravelAgencyNotFound;
+import com.TravelPlanningSystem.TravelPlanningSystem.exception.TripNotFound;
 import com.TravelPlanningSystem.TravelPlanningSystem.util.ResponseStructure;
 
 @Service
@@ -16,6 +22,9 @@ public class TravelAgencyService
 {
 	@Autowired
 	TravelAgencydao adao;
+	
+	@Autowired
+	Tripdao tdao;
 	
 	public ResponseEntity<ResponseStructure<TravelAgency>> saveAgency(TravelAgency agency){
 		ResponseStructure<TravelAgency> str = new ResponseStructure<TravelAgency>();
@@ -34,7 +43,7 @@ public class TravelAgencyService
 			str.setData(exAgency);
 			return new ResponseEntity<ResponseStructure<TravelAgency>>(str, HttpStatus.FOUND);
 		}
-		return null;
+		throw new TravelAgencyNotFound("Agency does not Found");
 	}
 	
 	public ResponseEntity<ResponseStructure<TravelAgency>> deleteAgency(int agencyId){
@@ -46,7 +55,7 @@ public class TravelAgencyService
 			str.setData(adao.deleteAgency(agencyId));
 			return new ResponseEntity<ResponseStructure<TravelAgency>>(str, HttpStatus.OK);
 		}
-		return null;
+		throw new TravelAgencyNotFound("Agency does not Found");
 	}
 	
 	public ResponseEntity<ResponseStructure<TravelAgency>> updateAgency(int agencyId ,TravelAgency agency){
@@ -58,7 +67,7 @@ public class TravelAgencyService
 			str.setData(adao.updateAgency(agencyId , agency));
 			return new ResponseEntity<ResponseStructure<TravelAgency>>(str, HttpStatus.OK);
 		}
-		return null;
+		throw new TravelAgencyNotFound("Agency does not Found");
 	}
 	
 	public ResponseEntity<ResponseStructure<List<TravelAgency>>> findAllAgency(){
@@ -70,7 +79,24 @@ public class TravelAgencyService
 			str.setData(agencies);
 			return new ResponseEntity<ResponseStructure<List<TravelAgency>>>(str , HttpStatus.FOUND);
 		}
-		return null;
+		throw new TravelAgencyListNotFound("Agency List does not Found");
+	}
+	
+	public ResponseEntity<ResponseStructure<Trip>> assignTrip(int agencyId, int tripId){
+		ResponseStructure<Trip> str = new ResponseStructure<Trip>();
+		TravelAgency agency=adao.findAgency(agencyId);
+		Trip t = tdao.findTrip(tripId);
+		if(agency != null) {
+			if(t != null) {
+				agency.getTrips().add(t);
+				str.setMsg("Trip assign Success");
+				str.setCode(HttpStatus.OK.value());
+				str.setData(tdao.updateTrip(tripId, t));
+				return new ResponseEntity<ResponseStructure<Trip>>(str, HttpStatus.OK);
+			}
+			return null;
+		}
+		throw new TripNotFound("Trip does not Found");
 	}
 	
 }

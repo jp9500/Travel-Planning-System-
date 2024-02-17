@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.TravelPlanningSystem.TravelPlanningSystem.Entity.Expense;
 import com.TravelPlanningSystem.TravelPlanningSystem.dao.Expensedao;
+import com.TravelPlanningSystem.TravelPlanningSystem.exception.ExpenseListNotFound;
+import com.TravelPlanningSystem.TravelPlanningSystem.exception.ExpenseNotFound;
 import com.TravelPlanningSystem.TravelPlanningSystem.util.ResponseStructure;
 
 @Service
@@ -34,7 +36,7 @@ public class ExpenseService
 			str.setData(exExpense);
 			return new ResponseEntity<ResponseStructure<Expense>>(str, HttpStatus.FOUND);
 		}
-		return null;
+		throw new ExpenseNotFound("Expense does not found");
 	}
 	
 	public ResponseEntity<ResponseStructure<Expense>> deleteExpense(int id){
@@ -46,19 +48,19 @@ public class ExpenseService
 			str.setData(edao.deleteExpense(id));
 			return new ResponseEntity<ResponseStructure<Expense>>(str, HttpStatus.OK);
 		}
-		return null;
+		throw new ExpenseNotFound("Expense does not found");
 	}
 	
-	public ResponseEntity<ResponseStructure<Expense>> updateExpense(int id, Expense exp){
+	public ResponseEntity<ResponseStructure<Expense>> updateExpense(int expenseId, Expense exp){
 		ResponseStructure<Expense> str = new ResponseStructure<Expense>();
-		Expense exExpense=edao.findExpense(id);
+		Expense exExpense=edao.findExpense(expenseId);
 		if(exExpense != null) {
 			str.setMsg("Expense updated Success");
 			str.setCode(HttpStatus.OK.value());
-			str.setData(edao.deleteExpense(id));
+			str.setData(edao.updateExpense(expenseId, exExpense));
 			return new ResponseEntity<ResponseStructure<Expense>>(str, HttpStatus.OK);
 		}
-		return null;
+		throw new ExpenseNotFound("Expense does not found");
 	}
 	
 	public ResponseEntity<ResponseStructure<List<Expense>>> findAllExpense(){
@@ -70,6 +72,6 @@ public class ExpenseService
 			str.setData(exs);
 			return new ResponseEntity<ResponseStructure<List<Expense>>>(str , HttpStatus.FOUND);
 		}
-		return null;
+		throw new ExpenseListNotFound("Expense List does not found");
 	}
 }

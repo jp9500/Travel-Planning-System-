@@ -50,4 +50,5 @@ public class Tripdao
 	public List<Trip> findAllTrip(){
 		return repo.findAll();
 	}
+	
 }

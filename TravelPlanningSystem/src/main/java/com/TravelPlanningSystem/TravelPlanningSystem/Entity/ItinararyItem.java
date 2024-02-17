@@ -24,7 +24,4 @@ public class ItinararyItem {
 	private LocalDateTime startTime;
 	private LocalDateTime endTime;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-	Trip trip;
-	
 }
